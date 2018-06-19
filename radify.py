@@ -162,6 +162,7 @@ def getTrackIdFromSpotify(track_name, track_artists):
             print()
             artist_number = artist_number + 1
             
+        # Return the first element in finalGroups because that's probably the correct track
         return finalGroups[0][2]
 
     else:
