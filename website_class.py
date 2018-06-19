@@ -71,10 +71,9 @@ class Website:
 
 
     def parse(self, chrome_driver_location):
-        browser = webdriver.Chrome(chrome_driver_location) #replace with .Firefox(), or with the browser of your choice
-        browser.get(self.url) #navigate to the page
-
         try:
+            browser = webdriver.Chrome(chrome_driver_location) #replace with .Firefox(), or with the browser of your choice
+            browser.get(self.url) #navigate to the page
             trackElement = browser.find_elements_by_class_name(self.track_element_class_name)
         except Exception as exc:
             print("Error: Selenium/Chrome error: [{}]".format(exc))
