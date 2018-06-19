@@ -1,0 +1,44 @@
+---
+spotify_info:
+  user_id: ""      # This is your user ID for spotify
+  chrome_driver_location: "/usr/lib/chromium-browser/chromedriver"      # This is the location of the chromedriver. If switching to another browswer, change line in parse() method in website_class.py
+  #chrome_driver_location: "./chromedriver"
+
+
+websites:
+  KS95:
+    url: "https://live.ks95.com/listen/"      # The url of the website that will get parsed
+    track_element_class_name: "hll-track"     # The name of the element class that contains the track name
+    artist_element_class_name: "hll-artist"   # The name of the element class that contains the artist(s) name
+    track_artist_same_element:                # These next variables are used if the track and artist are contained in the same element class (the next website for example)
+      list_separation: null
+      track_element_value: null
+      artist_element_value: null
+    artist_element_list_separation: ","       # The character that will separate multiple artists within the element class
+    playlist_id: "7p3J3oOFsjlHtzcJc8tQEK"     # The ID of the playlist that the songs will be added to
+    max_song_count: 30                        # The maximum number of songs to be in the playlist (I don't know what the max is yet...)
+
+  Cities97:
+    url: "https://www.iheart.com/live/cities-97-minneapolis-st-paul-1221/?autoplay=true&pname=15400&campid=header&cid=%2Ffeatured%2Fcities-97-studio-c%2F"
+    track_element_class_name: "list-item"
+    artist_element_class_name: "list-item"
+    track_artist_same_element:
+      list_separation: "\n"
+      track_element_value: 0
+      artist_element_value: 1
+    artist_element_list_separation: "&"
+    playlist_id: "3HpXeIN1oGmQ2l4lAvJn0f"
+    max_song_count: 30
+
+  KDWB:
+    url: "https://www.iheart.com/live/1201/?autoplay=true&pname=15400&campid=header&cid=/content/2018-06-06-janet-huberts-son-attempts-suicide-actress-blames-will-smith/"
+    track_element_class_name: "list-item"
+    artist_element_class_name: "list-item"
+    track_artist_same_element:
+      list_separation: "\n"
+      track_element_value: 0
+      artist_element_value: 1
+    artist_element_list_separation: "&"
+    playlist_id: "5EY8nKkpM0xurSzYUzqNme"
+    max_song_count: 30
+
