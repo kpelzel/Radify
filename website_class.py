@@ -79,7 +79,8 @@ class Website:
             print("Error: Selenium/Chrome error: [{}]".format(exc))
             track = ""
             artists = []
-            browser.quit()
+            if browser: 
+                browser.quit()
             return track, artists
 
         if self.track_artist_same_element:
