@@ -79,8 +79,10 @@ class Website:
             print("Error: Selenium/Chrome error: [{}]".format(exc))
             track = ""
             artists = []
-            if browser: 
+            try:
                 browser.quit()
+            except:
+                print("browser is not defined")
             return track, artists
 
         if self.track_artist_same_element:
@@ -148,8 +150,3 @@ class Website:
 
         browser.quit()
         return track, artists
-
-
-
-
-

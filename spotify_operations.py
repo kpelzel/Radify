@@ -45,4 +45,3 @@ def addTrackSpotify(track_id, playlist_id, user_id):
     else:
         print("Can't get token for", user_id)
         return False
-
