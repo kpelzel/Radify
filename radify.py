@@ -15,6 +15,10 @@ from difflib import SequenceMatcher
 website_objects = []
 CHROME_DRIVER_LOCATION = ""
 USER_ID = ""
+normal_sleep_time = 20
+error_sleep_time = 40
+silence_start = "00:00"
+silence_stop = "06:00"
 
 
 def main():
@@ -25,6 +29,11 @@ def main():
 
         USER_ID = (config["spotify_info"]["user_id"])
         CHROME_DRIVER_LOCATION = (config["spotify_info"]["chrome_driver_location"])
+
+        normal_sleep_time = (config["general_settings"]["normal_sleep_time"])
+        error_sleep_time = (config["general_settings"]["error_sleep_time"])
+        silence_start = (config["general_settings"]["silence_start"])
+        silence_stop = (config["general_settings"]["silence_stop"])
 
         for name, values in config["websites"].items():
             myWebsite = Website(
@@ -55,9 +64,11 @@ def main():
         # If it is, sleep until 6:00 am
         now = datetime.now()
         now_time = now.time()
-        if now_time >= time(0,0) and now_time <= time(6,0):
-            extended_sleep_time = (timedelta(hours=24) - (now - now.replace(hour=6, minute=1, second=0, microsecond=0))).total_seconds() % (24 * 3600)
-            print("\nIt's late at night. Sleeping for {} seconds. Be back at 6am!\n".format(extended_sleep_time))
+        silence_start_array = re.split(':', silence_start)
+        silence_stop_array = re.split(':', silence_stop)
+        if now_time >= time(int(silence_start_array[0]),int(silence_start_array[1])) and now_time <= time(int(silence_stop_array[0]),int(silence_stop_array[1])):
+            extended_sleep_time = (timedelta(hours=24) - (now - now.replace(hour=int(silence_stop_array[0]), minute=int(silence_stop_array[1])+1, second=0, microsecond=0))).total_seconds() % (24 * 3600)
+            print("\nIt's late at night. Sleeping for {} seconds. Be back at {}!\n".format(extended_sleep_time, silence_stop))
             t.sleep(extended_sleep_time)
 
         # Check if any playlist is over 30 tracks
@@ -81,8 +92,8 @@ def main():
                     # Try to find if track is already in the playlist
                     trackFound = False
                     for track in website.playlist:
-                        first = "".join(parseinfo[0].split()).upper().replace("'","")
-                        second = "".join(track[0].split()).upper().replace("'","")
+                        first = "".join(parseinfo[0].split()).upper().replace("'","").replace("\"","")
+                        second = "".join(track[0].split()).upper().replace("'","").replace("\"","")
                         results = similar(first, second)
                         print("{:.2f} = {} vs {}".format(results, first, second))
                         # If the track name is more than an 90% match then we'll say that's a match
@@ -109,13 +120,13 @@ def main():
                                     print("Successfully added {} by {} to {} playlist\n".format(website.playlist[len(website.playlist)-1][0], website.playlist[len(website.playlist)-1][1], website.name))
                                 else:
                                     print("Error: problem occured adding {} to spotify {} playlist\n".format(parseinfo[0], website.name))
-                                    sleep_time = 40
+                                    sleep_time = error_sleep_time
                             else:
                                 print("Song is already in {} playlist.\n".format(website.name))
-                                sleep_time = 20
+                                sleep_time = normal_sleep_time
                     else:
                         print("Song is already in {} playlist.\n".format(website.name))
-                        sleep_time = 20
+                        sleep_time = normal_sleep_time
             
         print("Sleeping for {} seconds...\n\n".format(sleep_time))
         t.sleep(sleep_time)

@@ -1,4 +1,10 @@
 ---
+general_settings:
+  normal_sleep_time: 10   # This is the sleep time radify takes in between each loop of all the websites
+  error_sleep_time: 20    # This is the sleep time radify takes in between each loop of all the websites if an error occurs
+  silence_start: "00:00"  # After this time (00:00 = midnight) radify won't run
+  silence_stop: "06:00"   # Before this time, radify won't run
+
 spotify_info:
   user_id: ""      # This is your user ID for spotify
   chrome_driver_location: "/usr/lib/chromium-browser/chromedriver"      # This is the location of the chromedriver. If switching to another browswer, change line in parse() method in website_class.py
@@ -42,3 +48,14 @@ websites:
     playlist_id: "5EY8nKkpM0xurSzYUzqNme"
     max_song_count: 30
 
+  TheCurrent:
+    url: "https://www.thecurrent.org/listen"
+    track_element_class_name: "player-title"
+    artist_element_class_name: "player-artist"
+    track_artist_same_element:
+      list_separation: null
+      track_element_value: null
+      artist_element_value: null
+    artist_element_list_separation: "&"
+    playlist_id: "1FyO0OIdwQgmrbB8EMRZFD"
+    max_song_count: 30
