@@ -86,25 +86,32 @@ class Website:
             return track, artists
 
         if self.track_artist_same_element:
-            bothElement = trackElement
-            if bothElement:
-                info = bothElement[0].text.split(self.list_separation)
-                track = info[self.track_list_element_value].strip()
-                artists = info[self.artist_list_element_value].strip().split(self.artist_element_list_separation)
-            else:
-                track = ""
-                artists = []
+            try:
+                bothElement = trackElement
+                if bothElement:
+                    info = bothElement[0].text.split(self.list_separation)
+                    track = info[self.track_list_element_value].strip()
+                    artists = info[self.artist_list_element_value].strip().split(self.artist_element_list_separation)
+                else:
+                    track = ""
+                    artists = []
+            except:
+                print("Error: Parsing error occured\ninfo: [{}]\ntrack: [{}]\nartists: [{}]\n".format(info, track, artists))
 
         else:
-            if trackElement:
-                track = trackElement[0].text.strip()
+            try:
+                if trackElement:
+                    track = trackElement[0].text.strip()
 
-                artistElement = browser.find_elements_by_class_name(self.artist_element_class_name)
-                if artistElement:
-                    artists = artistElement[0].text.strip().split(self.artist_element_list_separation)
-            else:
-                track = ""
-                artists = []
+                    artistElement = browser.find_elements_by_class_name(self.artist_element_class_name)
+                    if artistElement:
+                        artists = artistElement[0].text.strip().split(self.artist_element_list_separation)
+                else:
+                    track = ""
+                    artists = []
+            except:
+                print("Error: Parsing error occured\ntrack: [{}]\nartists: [{}]\n".format(track, artists))
+
 
         # Looks for a parathesis in track name with (feat., ft., or with) and moves that artist to the artists list
         matchList = re.findall(r"((?:(.*)\((?:ft\.|feat\.|with|f\.|feat|ft)(.*)\)|(.*)(?:ft\.|feat\.|with|f\.|feat|ft)(.*)|.+))", track)
