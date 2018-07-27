@@ -137,44 +137,43 @@ def getTrackIdFromSpotify(track_name, track_artists):
     if token:
         sp = spotipy.Spotify(auth=token)
         searchResults = str(sp.search(q=track_name, limit=10, type='track'))
-        matchList = re.findall(r"'id':(.*?),.*?'name':(.*?),.*?'type':(.*?),", searchResults)
 
-        # Parse through the search results from spotify
-        Groups = []
-        for match in matchList:
-            if match[2].strip() == "'artist'":
-                match_artist = match[1].strip().replace("'","")
-            elif match[2].strip() == "'track'":
-                match_id = match[0].strip().replace("'","")
-                match_track = match[1].strip().replace("'","")
-                group = match_track, match_artist, match_id
-                Groups.append(group)
-                match_artist = ""
-                match_track = ""
-                match_id = ""
+        # Track objects format:
+        #   Track object:
+        #       index 0 = track id
+        #       index 1 = track name
+        #       index 2 = list of artists names
+        track_objects = []
+        final_track_ids = []
+        items = (searchResults["tracks"]["items"])
+        for item in items:
+            track = []
+            track.append(item["id"])
+            track.append(item["name"])
+            artists = (item["artists"])
+            artists_list = []
+            for artist in artists:
+                artists_list.append(artist["name"])
+            track.append(artists_list)
+            
+            track_objects.append(track)
+        
 
-        finalGroups = []
-        artist_number = 0
-        while not finalGroups:
-            if artist_number > len(track_artists) - 1:
-                print("Could not find track on spotify. Not adding to playlist...")
-                return 0
-            for group in Groups:
-                # Comparing the website known artists with the spotify found artists
-                first = "".join(group[1].split()).upper().replace("'","")
-                second = "".join(track_artists[artist_number].split()).upper().replace("'","")
-                results = similar(first, second)
-                print("{:.2f} = {} vs {}".format(results, first, second))
-
-                # If the artist is more than an 80% match then we'll say that's a match
-                if results >= 0.8:
-                    finalGroups.append(group)
+        for track in track_objects:
+            for spotify_artist in track[2]:
+                for website_artist in track_artists:
+                    spotify_artist_compare = "".join(spotify_artist.split()).upper().replace("'","")
+                    website_artist_compare = "".join(website_artist.split()).upper().replace("'","")
+                    results = similar(spotify_artist_compare, website_artist_compare)
+                    print("{:.2f} = {} vs {}".format(results, spotify_artist_compare, website_artist_compare))
+                    if results >= 0.8:
+                        # add the track id to final_track_ids
+                        final_track_ids.append(track[0])
 
             print()
-            artist_number = artist_number + 1
             
-        # Return the first element in finalGroups because that's probably the correct track
-        return finalGroups[0][2]
+        # Return the first element in final_track_ids because that's probably the correct track
+        return final_track_ids[0]
 
     else:
         print("Can't get token for", USER_ID)
