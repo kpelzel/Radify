@@ -136,7 +136,7 @@ def getTrackIdFromSpotify(track_name, track_artists):
     token = generate_token(USER_ID)
     if token:
         sp = spotipy.Spotify(auth=token)
-        searchResults = str(sp.search(q=track_name, limit=10, type='track'))
+        searchResults = sp.search(q=track_name, limit=10, type='track')
 
         # Track objects format:
         #   Track object:
@@ -170,7 +170,7 @@ def getTrackIdFromSpotify(track_name, track_artists):
                         # add the track id to final_track_ids
                         final_track_ids.append(track[0])
 
-            print()
+        print()
             
         # Return the first element in final_track_ids because that's probably the correct track
         return final_track_ids[0]
