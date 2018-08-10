@@ -99,10 +99,6 @@ class Website:
                 print("Error: Parsing error occured\n")
                 if info:
                     print("info: [{}]\n".format(info))
-                if track:
-                    print("track: [{}]\n".format(track))
-                if artists:
-                    print("artists: [{}]\n".format(artists))
 
         else:
             try:
@@ -117,10 +113,8 @@ class Website:
                     artists = []
             except:
                 print("Error: Parsing error occured\n")
-                if track:
-                    print("track: [{}]\n".format(track))
-                if artists:
-                    print("artists: [{}]\n".format(artists))
+                if trackElement:
+                    print("trackElement: [{}]\n".format(trackElement))
 
 
         # Looks for a parathesis in track name with (feat., ft., or with) and moves that artist to the artists list
