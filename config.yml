@@ -7,6 +7,9 @@ general_settings:
 
 spotify_info:
   user_id: ""      # This is your user ID for spotify
+  spotify_client_id: ""
+  spotify_client_secret: ""
+  spotify_redirect_uri: ""
   chrome_driver_location: "/usr/lib/chromium-browser/chromedriver"      # This is the location of the chromedriver. If switching to another browswer, change line in parse() method in website_class.py
   #chrome_driver_location: "./chromedriver"
 
