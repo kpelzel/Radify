@@ -10,6 +10,7 @@ from website_class import Website
 from spotify_operations import generate_token, removeTrackSpotify, addTrackSpotify
 import yaml
 from difflib import SequenceMatcher
+import os
 
 
 website_objects = []
@@ -29,6 +30,14 @@ def main():
 
         USER_ID = (config["spotify_info"]["user_id"])
         CHROME_DRIVER_LOCATION = (config["spotify_info"]["chrome_driver_location"])
+        SPOTIFY_CLIENT_ID = (config["spotify_info"]["spotify_client_id"])
+        SPOTIFY_CLIENT_SECRET = (config["spotify_info"]["spotify_client_secret"])
+        SPOTIFY_REDIRECT_URI = (config["spotify_info"]["spotify_redirect_uri"])
+
+
+        os.environ['SPOTIPY_CLIENT_ID'] = SPOTIFY_CLIENT_ID
+        os.environ['SPOTIPY_CLIENT_SECRET'] = SPOTIFY_CLIENT_SECRET
+        os.environ['SPOTIPY_REDIRECT_URI'] = SPOTIFY_REDIRECT_URI
 
         normal_sleep_time = (config["general_settings"]["normal_sleep_time"])
         error_sleep_time = (config["general_settings"]["error_sleep_time"])
