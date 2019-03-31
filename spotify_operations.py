@@ -19,8 +19,8 @@ def removeTrackSpotify(track_id, playlist_id, user_id):
             sp.user_playlist_remove_all_occurrences_of_tracks(user_id, playlist_id, trackIdList, snapshot_id=None)
             print("Track was successfully removed from spotify")
             return True
-        except:
-            print("Error: Track failed to be removed from spotify")
+        except Exception as e:
+            print("Error: Track failed to be removed from spotify\nError: [{}]".format(e))
             return False
 
     else:
