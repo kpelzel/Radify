@@ -45,7 +45,6 @@ class Website:
             results = sp.user_playlist(user_id, playlist_id=self.playlist_id, fields='tracks')
             stringResults = str(results)
             matchList = re.findall(r"'id':(.*?),.*?'name':(.*?),.*?'type':(.*?),", stringResults)
-            print(matchList)
 
             for match in matchList:
                 if match[2].strip() == "'artist'":
