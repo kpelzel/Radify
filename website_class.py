@@ -44,6 +44,7 @@ class Website:
             sp = spotipy.Spotify(auth=token)
             results = sp.user_playlist(user_id, playlist_id=self.playlist_id, fields='tracks')
             stringResults = str(results)
+            print("results: {}".format(stringResults))
             matchList = re.findall(r"'id':(.*?),.*?'name':(.*?),.*?'type':(.*?),", stringResults)
 
             for match in matchList:
