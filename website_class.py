@@ -44,19 +44,18 @@ class Website:
             sp = spotipy.Spotify(auth=token)
             results = sp.user_playlist(user_id, playlist_id=self.playlist_id, fields='tracks')
             stringResults = str(results)
-            matchList = re.findall(r"'id':(.*?),.*?'name':(.*?),.*?'type':(.*?),", stringResults)
 
-            for match in matchList:
-                if match[2].strip() == "'artist'":
-                    match_artist = match[1].strip().replace("'","")
-                elif match[2].strip() == "'track'":
-                    match_id = match[0].strip().replace("'","")
-                    match_track = match[1].strip().replace("'","")
-                    group = match_track, match_artist, match_id
-                    self.playlist.append(group)
-                    match_artist = ""
-                    match_track = ""
-                    match_id = ""
+            for item in results['tracks']['items']:
+                match_track = item['track']['name'].strip().replace("'","")
+                match_artist = item['track']['artists'][0]['name'].strip().replace("'","")
+                match_id = item['track']['id'].strip().replace("'","")
+                # print("{}, {}, {}".format(match_track, match_artist, match_id))
+                group = match_artist, match_artist, match_id
+                self.playlist.append(group)
+                match_artist = ""
+                match_track = ""
+                match_id = ""
+
         else:
             print("Can't get token for", user_id)
 
