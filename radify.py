@@ -96,6 +96,7 @@ def main():
 
                 if parseinfo[0] == "":
                     print("Parse failed for {}. Skipping for now...".format(website.name))
+                    print("Parseinfo: {}".format(parseinfo))
                 else:
                     print("Found Track: {}\nArtists: {}".format(parseinfo[0],parseinfo[1]))
                     # Try to find if track is already in the playlist
